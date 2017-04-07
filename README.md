@@ -13,7 +13,7 @@ This is repository that will hold all of your code that you create during the pr
 
 # Application Requirements and informations
 
-Application should allow user to find current weather in localization they're actually at / looking for. Application should allow:
+Application should allow user to find current weather in localization they're actually at / looking for:
 
 * Authorization - there should be possibility to authorize user (registration, logging in) - be it working backend, or just fake frontend authorization (i.e. if password matches string). User shall provide: Username, Password, Email.
 * Browse available locations - some popular ones like San francisco, Washington, London, Paris, Warsaw
