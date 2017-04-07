@@ -10,6 +10,7 @@ This is repository that will hold all of your code that you create during the pr
 * The more edge cases you handle - the better, we'll be testing the app not only by the happy path, but we'll also try to break it.
 * Design doesn't matter that much - but it should be easily possible to determin what I should do in order to use the app, without us guessing (good UX, not so much UI)
 * Code must be only in English, no Polish, no any other language.
+* It doesn't matter if you don't make all the features to the deadline, we just want to know how you're going with technologies, and how good is your code.
 
 # Application Requirements and informations
 
