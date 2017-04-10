@@ -4,10 +4,7 @@
         <title>Weather App</title>
 
         <% include ../layout/headers.html %>
-        <script src="/js/src/weather/routes.js"></script>
-        <script src="/js/src/weather/MasterController.js"></script>
-        <script src="/js/src/weather/WeatherController.js"></script>
-        <script src="/js/src/weather/WeatherService.js"></script>
+        <script src="/js/dist/weather.min.js"></script>
 
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,22 +31,22 @@
         </md-toolbar>
 
         <md-sidenav class="md-sidenav-right md-whiteframe-4dp" md-component-id="right">
-            <md-toolbar class="md-theme-light">
+            <md-toolbar class="md-theme-light" layout="row" layout-align="center center">
                 <h1 class="md-toolbar-tools">Favorite locations</h1>
+                <md-button class="md-icon-button" ng-click="mc.toggleMenu()">
+                    <md-icon md-svg-icon="nav:ic_close_24px"></md-icon>
+                    <md-tooltip>Close favorites</md-tooltip>
+                </md-button>
             </md-toolbar>
-            <md-content>
-                <md-list flex>
-                    <md-list-item ng-repeat="item in mc.favorites track by item.id" ng-click="mc.selectFavorite(item)">
-                        <div layout="row" layout-align="center center">
-                            <h3>{{item.name}}</h3>
-                            <span flex></span>
-                            <md-button class="md-icon-button" ng-click="mc.deleteFromFavorites(item)">
-                                <md-icon md-svg-icon="action:ic_delete_24px"></md-icon>
-                                <md-tooltip>Delete</md-tooltip>
-                            </md-button>
-                        </div>
-                    </md-list-item>
-                </md-list>
+            <md-content layout="column">
+                <div layout="row" layout-padding class="fav-item" ng-repeat="item in mc.favorites track by item.id" ng-click="mc.selectFavorite(item)">
+                    <span>{{item.name}}</span>
+                    <span flex></span>
+                    <md-button class="md-icon-button" ng-click="mc.deleteFromFavorites(item)">
+                        <md-icon md-svg-icon="action:ic_delete_24px"></md-icon>
+                        <md-tooltip>Delete {{item.name}}</md-tooltip>
+                    </md-button>
+                </div>
             </md-content>
         </md-sidenav>
 

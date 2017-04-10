@@ -5,6 +5,14 @@ var pool = new pg.Pool(dbConfig.pgConnection);
 
 var noCallbackException = 'Model callback is not provided';
 
+/**
+ * Search for user in db
+ * @param {string} login
+ * @param {string} password
+ * @param {string} email
+ * @param {function} callback
+ * @returns {undefined}
+ */
 exports.get = function (login, password, email, callback) {
     if (typeof callback !== 'function') {
         throw noCallbackException;
@@ -23,6 +31,14 @@ exports.get = function (login, password, email, callback) {
     });
 };
 
+/**
+ * Add user to db
+ * @param {string} login
+ * @param {string} password
+ * @param {string} email
+ * @param {function} callback
+ * @returns {undefined}
+ */
 exports.create = function (login, password, email, callback) {
     if (typeof callback !== 'function') {
         throw noCallbackException;

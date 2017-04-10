@@ -6,12 +6,12 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 url: '/',
                 templateUrl: '/tpl/signin',
                 controller: 'UserController',
-                controllerAs: 'si'
+                controllerAs: 'uc'
             })
             .state('signUp', {
                 url: '/signup',
                 templateUrl: '/tpl/signup',
                 controller: 'UserController',
-                controllerAs: 'su'
+                controllerAs: 'uc'
             });
 });

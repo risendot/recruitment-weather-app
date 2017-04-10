@@ -1,3 +1,4 @@
+//PostgreSQL database config
 module.exports = {
     pgConnection: {
         user: 'avlpncwnsmriku',

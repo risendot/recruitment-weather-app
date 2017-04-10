@@ -19,6 +19,11 @@ app.controller('WeatherController', function ($scope, $interval, $mdToast, Weath
         {name: "Paris", id: 2988507}
     ];
 
+    /**
+     * Choose location from predefined popular ones
+     * @param {object} item
+     * @returns {undefined}
+     */
     this.choosePopular = function (item) {
         if (!item)
             return;
@@ -27,11 +32,20 @@ app.controller('WeatherController', function ($scope, $interval, $mdToast, Weath
         getWeatherData(item.id)
     }
 
+    /**
+     * Search city by name
+     * @returns {undefined}
+     */
     this.searchCity = function () {
         _this.loading.weather = true;
         WeatherService.getCurrentWeatherByName(_this.model.search);
     }
 
+    /**
+     * Return weather icon url
+     * @param {object} item
+     * @returns {string}
+     */
     this.getWeatherIcon = function (item) {
         if (!item)
             return;
@@ -46,23 +60,54 @@ app.controller('WeatherController', function ($scope, $interval, $mdToast, Weath
         }
     }
 
+    /**
+     * Toggle expanded view for forecast
+     * @returns {undefined}
+     */
     this.toggleForecast = function () {
         _this.config.forecast = _this.config.forecast === 9 ? _this.forecast.list.length : 9;
-        console.log(_this.config);
     }
 
+    /**
+     * Disable "add to favorites" button if location already is favorite
+     * @param {object} item
+     * @returns {boolean}
+     */
+    this.disableAddButton = function (item) {
+        if (!item)
+            return;
+        return WeatherService.compareToFavorites(item);
+    }
+
+    /**
+     * Add current location to favorites
+     * @param {object} item
+     * @returns {undefined}
+     */
     this.addToFavorites = function (item) {
         if (!item)
             return;
 
-        WeatherService.addToFavorites(item);
+        var msg = '';
+
+        if (WeatherService.addToFavorites(item)) {
+            msg = 'Added to favorites!';
+        } else {
+            msg = 'Location already in favorites';
+        }
+
         $mdToast.show(
                 $mdToast.simple()
-                .textContent('Added to favorites!')
+                .textContent(msg)
                 .hideDelay(3000)
                 );
     }
 
+    /**
+     * Set current location as default
+     * @param {object} item
+     * @returns {undefined}
+     */
     this.setAsDefault = function (item) {
         if (!item)
             return;
@@ -75,22 +120,34 @@ app.controller('WeatherController', function ($scope, $interval, $mdToast, Weath
         localStorage.setItem('_weatherDefault_', JSON.stringify(def));
         $mdToast.show(
                 $mdToast.simple()
-                .textContent('Set as default!')
+                .textContent('New default location!')
                 .hideDelay(3000)
                 );
     }
 
+    /**
+     * Wrapper for getCurrentWeather WeatherService function
+     * @param {numeric} city
+     * @returns {undefined}
+     */
     function getWeatherData(city) {
         WeatherService.getCurrentWeatherByID(city);
     }
 
+    /**
+     * Set interval for updating weather every 10mins
+     * @returns {undefined}
+     */
     $interval(function () {
         getWeatherData(_this.config.id)
     }, 60000);
 
-
+    /**
+     * Initialization function
+     * @returns {undefined}
+     */
     function init() {
-
+        console.log('WeatherController');
         _this.loading.weather = true;
         var def = JSON.parse(localStorage.getItem('_weatherDefault_'));
         if (def !== null && def.id && def.name) {
@@ -98,8 +155,6 @@ app.controller('WeatherController', function ($scope, $interval, $mdToast, Weath
         } else {
             WeatherService.getGeoLocation();
         }
-
-        console.log('WeatherController', _this.weather, _this.forecast);
     }
     init();
 });

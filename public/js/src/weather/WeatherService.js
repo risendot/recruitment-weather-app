@@ -20,14 +20,33 @@ app.service('WeatherService', function ($http, API_KEY) {
         500, 501, 502, 503, 504, 800, 801, 802, 951, 952, 953, 954
     ];
 
+    /**
+     * Wrapper for getCurrentWeather function
+     * @param {numeric} cityID
+     * @param {function} callback
+     * @returns {undefined}
+     */
     this.getCurrentWeatherByID = function (cityID, callback) {
         getCurrentWeather(cityID, 'id', callback);
     }
 
+    /**
+     * Wrapper for getCurrentWeather function
+     * @param {string} city
+     * @param {function} callback
+     * @returns {undefined}
+     */
     this.getCurrentWeatherByName = function (city, callback) {
         getCurrentWeather(city, 'q', callback);
     }
 
+    /**
+     * Request to OpenWeatherMap API for weather data
+     * @param {any} city
+     * @param {string} method
+     * @param {function} callback
+     * @returns {undefined}
+     */
     function getCurrentWeather(city, method, callback) {
         $http.get('http://api.openweathermap.org/data/2.5/weather?' + method + '=' + city + '&APPID=' + API_KEY.OW).then(function (res) {
             updateConfig(res.data);
@@ -42,6 +61,37 @@ app.service('WeatherService', function ($http, API_KEY) {
         });
     }
 
+    /**
+     * Compare selected item to favorites
+     * @param {type} item
+     * @returns {Boolean}
+     */
+    this.compareToFavorites = function (item) {
+        if (!item)
+            return;
+
+//        WHY YOU'RE NOT WORKING!?!?!
+//        var index = _this.favorites.indexOf(fav);
+//        console.log(index);
+//        if (index !== -1) {
+//            return;
+//        }
+
+        var push = false;
+        for (var i in _this.favorites) {
+            var tmp = _this.favorites[i];
+            if (tmp.name === item.name && tmp.id === item.id) {
+                push = true;
+            }
+        }
+        return push;
+    }
+
+    /**
+     * Add location to favorites
+     * @param {object} item
+     * @returns {undefined}
+     */
     this.addToFavorites = function (item) {
         if (!item)
             return;
@@ -51,13 +101,20 @@ app.service('WeatherService', function ($http, API_KEY) {
             name: item.name
         };
 
-        if (_this.favorites.indexOf(fav) !== -1) {
-            return;
+        if (_this.compareToFavorites(fav)) {
+            return false;
+        } else {
+            _this.favorites.push(fav);
+            localStorage.setItem('_weatherFavorites_', JSON.stringify(_this.favorites));
+            return true;
         }
-        _this.favorites.push(fav);
-        localStorage.setItem('_weatherFavorites_', JSON.stringify(_this.favorites));
     }
 
+    /**
+     * Delete location from favorites
+     * @param {object} item
+     * @returns {undefined}
+     */
     this.deleteFromFavorites = function (item) {
         if (!item)
             return;
@@ -66,6 +123,7 @@ app.service('WeatherService', function ($http, API_KEY) {
         localStorage.setItem('_weatherFavorites_', JSON.stringify(_this.favorites));
     }
 
+    //Example post object for geolocation request. 
     var exampleLoc = {
         "macAddress": "00:25:9c:cf:1c:ac",
         "signalStrength": -43,
@@ -74,6 +132,11 @@ app.service('WeatherService', function ($http, API_KEY) {
         "signalToNoiseRatio": 0
     };
 
+    /**
+     * Request to google API for location, then request for OpenWeatherMap API for weather data
+     * @param {function} callback
+     * @returns {undefined}
+     */
     this.getGeoLocation = function (callback) {
         $http.post('https://www.googleapis.com/geolocation/v1/geolocate?key=' + API_KEY.GEO, exampleLoc).then(function (geo) {
             $http.get('http://api.openweathermap.org/data/2.5/weather?lat=' + geo.data.location.lat + '&lon=' + geo.data.location.lat + '&APPID=' + API_KEY.OW).then(function (res) {
@@ -89,6 +152,11 @@ app.service('WeatherService', function ($http, API_KEY) {
         });
     }
 
+    /**
+     * Update dashboard config, theme, current location info etc.
+     * @param {object} data
+     * @returns {undefined}
+     */
     function updateConfig(data) {
         if (!data)
             return;
@@ -104,6 +172,10 @@ app.service('WeatherService', function ($http, API_KEY) {
         _this.config.name = data.name;
     }
 
+    /**
+     * Initialization function
+     * @returns {undefined}
+     */
     function init() {
         console.log('WeatherService');
         var favorites = JSON.parse(localStorage.getItem('_weatherFavorites_'));

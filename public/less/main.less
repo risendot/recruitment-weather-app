@@ -1,15 +1,43 @@
+@big-font: 32px;
+@small-font: 16px;
+@thin-font: 200;
+
+@icon-size-small: 80px;
+@icon-size-large: 200px;
+
+@hover-color: #D9D9D9;
+
 body {
     font-family: 'Roboto', sans-serif;
 }
 .w-icon {
-    width: 80px;
-    height: 80px;
+    width: @icon-size-large;
+    height: @icon-size-large;
     margin: auto;
 }
-.w-param {
-    font-weight: 200;
-    font-size: 12px;
+.f-icon {
+    width: @icon-size-small;
+    height: @icon-size-small;
+    margin: auto;
+}
+.w-table {
+    font-size: @big-font;
+}
+.w-table tr td:first-child {
+    font-weight: @thin-font;
+    font-size: @big-font - 10px;
+}
+.f-table {
+    font-size: @small-font;
+}
+.f-table tr td:first-child {
+    font-weight: @thin-font;
+    font-size: @small-font - 6px;
 }
 .w200 {
-    font-weight: 200;
+    font-weight: @thin-font;
+}
+.fav-item:hover {
+    cursor: pointer;
+    background-color: @hover-color;
 }

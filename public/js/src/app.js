@@ -1,6 +1,6 @@
 var app = angular.module('weatherApp', ['ngMaterial', 'ngMessages', 'ngSanitize', 'ui.router'])
         .constant('API_KEY', {'OW': '89fca26d983d89c66f9a3a922bbdfc96', 'GEO': 'AIzaSyA6E7__NzkI4BXeUDQSU2VC3YOMYqX80OQ'})
-        .config(function ($mdIconProvider, $mdThemingProvider, $sceDelegateProvider) {
+        .config(function ($mdIconProvider, $mdThemingProvider, $sceDelegateProvider, $mdAriaProvider) {
             $mdIconProvider
                     .iconSet('action', 'node_modules/material-design-icons/sprites/svg-sprite/svg-sprite-action.svg', 24)
                     .iconSet('content', 'node_modules/material-design-icons/sprites/svg-sprite/svg-sprite-content.svg', 24)
@@ -27,19 +27,7 @@ var app = angular.module('weatherApp', ['ngMaterial', 'ngMessages', 'ngSanitize'
                     .primaryPalette('blue-grey')
                     .accentPalette('light-blue')
                     .warnPalette('red');
-
-            $sceDelegateProvider.resourceUrlWhitelist([
-                'self',
-                'http://openweathermap.org/img/w/**'
-            ]);
+            $mdAriaProvider.disableWarnings();
         });
-
-//Disable aria label warnings
-console.realWarn = console.warn;
-console.warn = function (message) {
-    if (message.indexOf("ARIA") != -1)
-        return;
-    console.realWarn.apply(console, arguments);
-};
 
 

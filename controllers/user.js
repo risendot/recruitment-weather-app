@@ -3,10 +3,12 @@ var router = express.Router();
 var User = require('../models/User');
 var md5Helper = require('../helpers/md5Helper');
 
+//Main route for login/register
 router.get('/', function (req, res) {
     res.render('./user/index.html');
 });
 
+//Sign in route
 router.post('/signin', function (req, res) {
     var body = req.body;
 
@@ -14,7 +16,6 @@ router.post('/signin', function (req, res) {
         if (err)
             throw err;
 
-        console.log(body, data);
         if (data) {
             if (md5Helper.checkPassword(body.password, data.password))
                 res.send({redirect: '/weather'});
@@ -24,6 +25,7 @@ router.post('/signin', function (req, res) {
     })
 });
 
+//Sign up route
 router.post('/signup', function (req, res) {
     var body = req.body;
 
@@ -31,7 +33,6 @@ router.post('/signup', function (req, res) {
         if (err)
             throw err;
 
-        console.log(body, data);
         if (data) {
             if (md5Helper.checkPassword(body.password, data.password))
                 res.send({redirect: '/', status: 1});
@@ -44,11 +45,17 @@ router.post('/signup', function (req, res) {
 /////////// TEMPLATES ///////////
 
 router.get('/tpl/signin', function (req, res) {
-    res.render('./user/signin.html');
+    res.render('./user/user.html', {
+        title: 'Weather App - Sign IN',
+        mode: 'signin'
+    });
 });
 
 router.get('/tpl/signup', function (req, res) {
-    res.render('./user/signup.html');
+    res.render('./user/user.html', {
+        title: 'Weather App - Create user',
+        mode: 'signup'
+    });
 });
 
 module.exports = router;
