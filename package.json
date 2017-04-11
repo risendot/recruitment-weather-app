@@ -1,0 +1,38 @@
+{
+    "name": "recruitment-weather-app",
+    "version": "1.0.0",
+    "description": "This is repository that will hold all of your code that you create during the process of testing you.",
+    "main": "app.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node app"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/risendot/recruitment-weather-app.git"
+    },
+    "author": "Patryk Marcola",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/risendot/recruitment-weather-app/issues"
+    },
+    "homepage": "https://github.com/risendot/recruitment-weather-app#readme",
+    "devDependencies": {
+        "grunt": "~0.4.5",
+        "grunt-contrib-clean": "^1.0.0",
+        "grunt-contrib-concat": "^1.0.1",
+        "grunt-contrib-jshint": "~0.10.0",
+        "grunt-contrib-nodeunit": "~0.4.1",
+        "grunt-contrib-uglify": "~0.5.0",
+        "grunt-contrib-watch": "^1.0.0",
+        "grunt-ng-annotate": "^3.0.0"
+    },
+    "dependencies": {
+        "body-parser": "^1.17.1",
+        "cors": "^2.8.3",
+        "ejs": "^2.5.6",
+        "express": "^4.15.2",
+        "md5": "^2.2.1",
+        "pg": "^6.1.5"
+    }
+}

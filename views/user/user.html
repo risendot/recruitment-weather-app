@@ -1,0 +1,52 @@
+<md-content layout="row" layout-padding layout-align="center center">
+    <md-card flex="40">
+        <form name="signin">
+            <md-card-title>
+                <md-card-title-text>
+                    <span class="md-headline"><%= title %></span>
+                </md-card-title-text>
+            </md-card-title>
+
+            <md-card-content layout="column">
+                <md-input-container flex>
+                    <label>Login</label>
+                    <input type="text" name="login" ng-model="uc.model.login" required>
+                    <div ng-messages="signin.login.$error">
+                        <div ng-message="required">This is required!</div>
+                    </div>
+                </md-input-container>
+                <md-input-container flex>
+                    <label>Password</label>
+                    <input type="password" name="password" ng-model="uc.model.password" required>
+                    <div ng-messages="signin.password.$error">
+                        <div ng-message="required">This is required!</div>
+                    </div>
+                </md-input-container>
+                <md-input-container flex>
+                    <label>Email</label>
+                    <input type="email" name="email" ng-model="uc.model.email" required>
+                    <div ng-messages="signin.email.$error">
+                        <div ng-message="required">This is required!</div>
+                    </div>
+                </md-input-container>
+            </md-card-content>
+
+            <md-card-actions layout="row" layout-align="end center">
+                <% if(mode === 'signin') { %>
+                <md-button class="md-primary" ng-click="uc.goToSignUp()">Sign UP</md-button>
+                <md-button type="submit" class="md-raised md-primary" ng-click="uc.signIn()"
+                           ng-disabled="signin.$invalid">
+                    Sign IN
+                </md-button>
+                <% } else { %>
+                <md-button class="md-primary" ng-click="uc.goToSignIn()">Go back</md-button>
+                <md-button type="submit" class="md-raised md-primary" 
+                           ng-click="uc.signUp()"
+                           ng-disabled="signup.$invalid">
+                    Register
+                </md-button>
+                <% } %>
+            </md-card-actions>
+        </form>
+    </md-card>
+</md-content>

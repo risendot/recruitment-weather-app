@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html ng-app="weatherApp">
+    <head>
+        <title>Weather App</title>
+
+        <% include ../layout/headers.html %>
+        <script src="/js/dist/weather.min.js"></script>
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body layout="column">
+    <md-content layout="column" flex ng-controller="MasterController as mc" md-theme="{{mc.config.theme}}" md-theme-watch>
+        <md-toolbar class="md-hue-2">
+            <div class="md-toolbar-tools">
+                <md-button class="md-icon-button" ng-disabled="true">
+                    <md-icon md-svg-icon="file:ic_cloud_24px"></md-icon>
+                </md-button>
+
+                <h2 flex md-truncate>Weather App</h2>
+
+                <md-button class="md-icon-button" ng-click="mc.toggleMenu()">
+                    <md-icon md-svg-icon="action:ic_favorite_24px"></md-icon>
+                    <md-tooltip>Favorites</md-tooltip>
+                </md-button>
+                <md-button class="md-icon-button" ng-click="mc.logout()">
+                    <md-icon md-svg-icon="action:ic_exit_to_app_24px"></md-icon>
+                    <md-tooltip>Log out</md-tooltip>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-sidenav class="md-sidenav-right md-whiteframe-4dp" md-component-id="right">
+            <md-toolbar class="md-theme-light" layout="row" layout-align="center center">
+                <h1 class="md-toolbar-tools">Favorite locations</h1>
+                <md-button class="md-icon-button" ng-click="mc.toggleMenu()">
+                    <md-icon md-svg-icon="nav:ic_close_24px"></md-icon>
+                    <md-tooltip>Close favorites</md-tooltip>
+                </md-button>
+            </md-toolbar>
+            <md-content layout="column">
+                <div layout="row" layout-padding class="fav-item" ng-repeat="item in mc.favorites track by item.id" ng-click="mc.selectFavorite(item)">
+                    <span>{{item.name}}</span>
+                    <span flex></span>
+                    <md-button class="md-icon-button" ng-click="mc.deleteFromFavorites(item)">
+                        <md-icon md-svg-icon="action:ic_delete_24px"></md-icon>
+                        <md-tooltip>Delete {{item.name}}</md-tooltip>
+                    </md-button>
+                </div>
+            </md-content>
+        </md-sidenav>
+
+        <section ui-view></section>
+    </md-content>
+</body>
+</html>

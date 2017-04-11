@@ -1,0 +1,124 @@
+<div flex layout="column" layout-padding>
+    <form>
+        <div layout="row" flex layout-align="center center">
+            <md-input-container flex="30">
+                <label>Search city</label>
+                <input type="text" ng-model="wc.model.search">
+            </md-input-container>
+            <md-button type="submit" class="md-raised md-accent" ng-click="wc.searchCity();">
+                <md-icon md-svg-icon="action:ic_search_24px"></md-icon>
+                Search
+            </md-button>
+        </div>
+    </form>
+    <div layout="column" ng-if="wc.loading.weather" layout-align="center center">
+        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+        <h3>Loading weather data</h3>
+    </div>
+    <div layout="column" ng-if="!wc.loading.weather">
+        <div layout="row" layout-align="start center">
+            <h3><span class="md-headline w200">Current Weather - {{wc.weather.name}}</span></h3>
+        </div>
+
+        <div layout="row" layout-align="center center">
+            <md-card md-theme-watch flex="60">
+                <md-card-title layout="row">
+                    <md-card-title-text flex="50">
+                        <span class="md-display-2">{{wc.weather.weather[0].description}}</span>
+                        <span class="md-headline">{{wc.config.updateTime}}</span>
+                    </md-card-title-text>
+                    <md-card-title-media flex="50">
+                        <div>
+                            <img class="w-icon" src="{{wc.getWeatherIcon(wc.weather)}}"></img>
+                        </div>
+                    </md-card-title-media>
+                </md-card-title>
+
+                <md-card-content layout-gt-md="row">
+                    <table class="w-table">
+                        <tr>
+                            <td>Humidity:</td>
+                            <td>{{wc.weather.main.humidity}} %</td>
+                        </tr>
+                        <tr>
+                            <td>Pressure:</td>
+                            <td>{{wc.weather.main.pressure}} hPa</td>
+                        </tr>
+                        <tr>
+                            <td>Temp.:</td>
+                            <td>{{wc.weather.main.temp - 273.15| number:2}} &deg;C</td>
+                        </tr>
+                        <tr>
+                            <td>Wind speed:</td>
+                            <td>{{wc.weather.wind.speed}} km/h</td>
+                        </tr>
+                    </table>
+                    <span flex></span>
+                    <div layout="column">
+                        <span class="md-headline">Popular locations</span>
+                        <div layout="row" layout-wrap>
+                            <md-button  flex="20" class="md-raised" ng-repeat="item in wc.popular track by item.id" ng-click="wc.choosePopular(item)">
+                                {{item.name}}
+                            </md-button>
+                        </div>
+                    </div>
+                </md-card-content>
+
+                <md-card-content>
+                </md-card-content>
+
+                <md-card-actions layout="row" layout-align="end center">
+                    <md-button class="md-raised" ng-click="wc.setAsDefault(wc.weather)">
+                        <md-icon md-svg-icon="maps:ic_my_location_24px"></md-icon>
+                        Set as default
+                    </md-button>
+                    <md-button class="md-raised md-accent" ng-click="wc.addToFavorites(wc.weather)" ng-disabled="wc.disableAddButton(wc.weather)">
+                        <md-icon md-svg-icon="action:ic_favorite_border_24px"></md-icon>
+                        Add to favorites
+                    </md-button>
+                </md-card-actions>
+            </md-card>
+        </div>
+
+        <div layout="row" layout-align="start center">
+            <h3><span class="md-headline w200">Forecast - {{wc.forecast.city.name}}</span></h3>
+            <span flex></span>
+            <md-button class="md-raised md-accent" ng-click="wc.toggleForecast()">
+                <span ng-if="wc.config.forecast === 9">Show all</span>
+                <span ng-if="wc.config.forecast > 9">Show 24h</span>
+            </md-button>
+        </div>
+
+        <div layout="row" layout-align="space-between stretch" layout-wrap>
+            <md-card flex-gt-sm="10" ng-repeat="item in wc.forecast.list| limitTo : wc.config.forecast : 0 track by item.dt">
+                <md-card-title>
+                    <md-card-title-text>
+                        <span class="md-headline">{{item.weather[0].description}}</span>
+                        <span class="md-subhead">{{item.dt_txt}}</span>
+                    </md-card-title-text>
+                </md-card-title>
+                <md-card-content layout="column">
+                    <table class="f-table">
+                        <tr>
+                            <td>Humidity:</td>
+                            <td>{{item.main.humidity}} %</td>
+                        </tr>
+                        <tr>
+                            <td>Pressure:</td>
+                            <td>{{item.main.pressure| number:0}} hPa</td>
+                        </tr>
+                        <tr>
+                            <td>Temp.:</td>
+                            <td>{{item.main.temp - 273.15| number:2}} &deg;C</td>
+                        </tr>
+                        <tr>
+                            <td>Wind speed:</td>
+                            <td>{{item.wind.speed}} km/h</td>
+                        </tr>
+                    </table>
+                    <img class="f-icon" src="{{wc.getWeatherIcon(item)}}"></img>
+                </md-card-content>
+            </md-card>
+        </div>
+    </div>
+</div>
